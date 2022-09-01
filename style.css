@@ -14,18 +14,18 @@
   display: inline-block;
 }
 
-#black {
+#color-1 {
   background-color: black;
 }
 
-#blue {
+#color-2 {
   background-color: blue;
 }
 
-#red {
+#color-3 {
   background-color: red;
 }
 
-#green {
+#color-4 {
   background-color: green;
 }
