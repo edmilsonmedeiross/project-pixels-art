@@ -17,25 +17,30 @@ function trocaColor() {
   }
 
   localStorage.setItem('colorPalette', JSON.stringify(paleta));
-
-  //console.log(paleta);
 }
 
 function addItem() {
-  //let array = JSON.parse(localStorage.getItem('colorPalette'));
-
   if (localStorage.colorPalette) {
     paleta = JSON.parse(localStorage.getItem('colorPalette'));
-
   }
 
   document.getElementById('color-2').style.backgroundColor = paleta[0];
   document.getElementById('color-3').style.backgroundColor = paleta[1];
   document.getElementById('color-4').style.backgroundColor = paleta[2];
+}
 
+let block = document.getElementById('pixel-board');
+
+ function createPixelBoard() {
+  for (index = 0; index < 25; index += 1) {
+    let newDiv = document.createElement('div');
+    newDiv.className = 'pixel';
+    newDiv.style.backgroundColor = 'white';
+    block.append(newDiv);
+  }
 }
 
 document.getElementById('button-random-color').addEventListener('click', trocaColor);
+createPixelBoard();
 addItem();
-
-//document.getElementById('button-random-color').addEventListener('click', addItem);
+//window.addEventListener('load', createPixelBoard);
