@@ -41,7 +41,7 @@ function createPalette() {
   // define a classe da primeira div como color selected.
   document.getElementById('color-1').className = 'color selected';
 
-  // atribui a cor black para a primeira div da paleta.
+  // atribui a cor black para a primeira div da paleta e das demais dinamicamente.
   document.getElementById('color-1').style.backgroundColor = 'black';
   document.getElementById('color-2').style.backgroundColor = 'red';
   document.getElementById('color-3').style.backgroundColor = 'blue';
@@ -95,3 +95,13 @@ function createPixelBoard() {
 } createPixelBoard();
 
 document.getElementById('button-random-color').addEventListener('click', trocaColor);
+const containerButton = document.getElementById('clear-board');
+
+function clear() {
+  const matrix = document.querySelectorAll('.pixel');
+  for (let index = 0; index < matrix.length; index += 1) {
+    matrix[index].style.backgroundColor = 'white';
+  }
+}
+
+containerButton.addEventListener('click', clear);
