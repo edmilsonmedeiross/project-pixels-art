@@ -13,7 +13,7 @@ function generateColor() {
 const listaPalet = document.getElementById('color-palette');
 
 // recupera as 4 divs da paleta.
-const fourDivs = document.getElementsByClassName('color');
+// const fourDivs = document.getElementsByClassName('color');
 // fourDivs[0].className = 'color selected';
 // console.log(fourDivs);
 
@@ -24,9 +24,10 @@ function divSelect(eventP) {
   if (classeSelected) {
     classeSelected.classList.remove('selected');
   }
-  blockGuard.classList.add('selected');
-}
 
+  blockGuard.classList.add('selected');
+  return blockGuard;
+}
 // cria uma paletta de divs com 4 divs
 function createPalette() {
   for (let index = 1; index <= 4; index += 1) {
@@ -37,8 +38,14 @@ function createPalette() {
     listaPalet.append(divPalette);
     // console.log(divPalette);
   }
-  // define a classe da primeira div como color selected
+  // define a classe da primeira div como color selected.
   document.getElementById('color-1').className = 'color selected';
+
+  // atribui a cor black para a primeira div da paleta.
+  document.getElementById('color-1').style.backgroundColor = 'black';
+  document.getElementById('color-2').style.backgroundColor = 'red';
+  document.getElementById('color-3').style.backgroundColor = 'blue';
+  document.getElementById('color-4').style.backgroundColor = 'green';
 } createPalette();
 
 let paleta = []; // array global para armazenar as cores geradas;
@@ -67,13 +74,13 @@ function addItem() {
 // recupera a div container onde estará os pixels a serem pintados
 const block = document.getElementById('pixel-board');
 
+// recupera o elemento com a classe selected.
+
+// pinta as divs pixel
 function paint(event) {
-  let divEvent = event.target;
-  //let changeClass = document.getElementsByClassName('color');
-  //changeClass.className = 'color selected';
-  //let colorDrive = document.getElementsByClassName('selected').style.backgroundColor;
-  //divEvent.style.backgroundColor = colorDrive;
-  console.log(divEvent);
+  const divEvent = event.target;
+  divEvent.style.backgroundColor = document.querySelector('.selected').style.backgroundColor;
+  console.log(document.querySelector('.selected'));
 }
 
 // cria 25 divs que serao os pixels a serem pintados
