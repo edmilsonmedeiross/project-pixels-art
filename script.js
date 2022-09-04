@@ -81,6 +81,7 @@ function paint(event) {
   const divEvent = event.target;
   divEvent.style.backgroundColor = document.querySelector('.selected').style.backgroundColor;
   console.log(document.querySelector('.selected'));
+  saveArt();
 }
 
 // cria 25 divs que serao os pixels a serem pintados
@@ -105,3 +106,28 @@ function clear() {
 }
 
 containerButton.addEventListener('click', clear);
+
+let pixArt = [];
+
+function saveArt() {
+  const matrixX = document.querySelectorAll('.pixel');
+  let pixArt = [];
+  for (let index = 0; index < matrixX.length; index += 1) {
+    if (matrixX[index].style.backgroundColor !== null) {
+      pixArt.push(matrixX[index].style.backgroundColor);
+    }
+    console.log(pixArt);
+  }
+  localStorage.setItem('pixelBoard', JSON.stringify(pixArt));
+}
+
+function loadArt() {
+  const matrixX = document.querySelectorAll('.pixel');
+  if (localStorage.pixelBoard) {
+    pixArt = JSON.parse(localStorage.getItem('pixelBoard'));
+
+    for (let index = 0; index < matrixX.length; index += 1) {
+      matrixX[index].style.backgroundColor = pixArt[index];
+    }
+  }
+} loadArt();
