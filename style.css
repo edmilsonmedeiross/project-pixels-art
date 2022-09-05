@@ -15,7 +15,9 @@
 }
 
 #pixel-board {
-  position: absolute;
+  position: fixed;
+  margin-left: 44%;
+  top: 230px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
@@ -24,9 +26,30 @@
 }
 
 .pixel {
+  position: relative;
+  align-content: center;
+  justify-content: center;
   background-color: white;
   display: inline-block;
   border: 1px solid black;
   width: 40px;
   height: 40px;
+}
+
+#input {
+  display: inline;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+#generate-board {
+  display: inline-block;
+  position: fixed;
+
+}
+
+#board-size {
+  display: inline-block;
+
 }

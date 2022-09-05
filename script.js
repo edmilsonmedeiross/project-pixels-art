@@ -12,11 +12,6 @@ function generateColor() {
 // recupera minha div container para paletta;
 const listaPalet = document.getElementById('color-palette');
 
-// recupera as 4 divs da paleta.
-// const fourDivs = document.getElementsByClassName('color');
-// fourDivs[0].className = 'color selected';
-// console.log(fourDivs);
-
 // funçao para selecionar a div da paleta e mudar a classe.
 function divSelect(eventP) {
   const classeSelected = document.querySelector('.selected');
@@ -28,7 +23,9 @@ function divSelect(eventP) {
   blockGuard.classList.add('selected');
   return blockGuard;
 }
+
 // cria uma paletta de divs com 4 divs
+
 function createPalette() {
   for (let index = 1; index <= 4; index += 1) {
     const divPalette = document.createElement('div');
@@ -36,8 +33,8 @@ function createPalette() {
     divPalette.id = `color-${index}`;
     divPalette.addEventListener('click', divSelect);
     listaPalet.append(divPalette);
-    // console.log(divPalette);
   }
+
   // define a classe da primeira div como color selected.
   document.getElementById('color-1').className = 'color selected';
 
@@ -46,7 +43,9 @@ function createPalette() {
   document.getElementById('color-2').style.backgroundColor = 'red';
   document.getElementById('color-3').style.backgroundColor = 'blue';
   document.getElementById('color-4').style.backgroundColor = 'green';
-} createPalette();
+}
+
+createPalette();
 
 let paleta = []; // array global para armazenar as cores geradas;
 
@@ -58,23 +57,27 @@ function trocaColor() {
     document.getElementById(`color-${index + 1}`).style.backgroundColor = generateColor();
     paleta.push(document.getElementById(`color-${index + 1}`).style.backgroundColor);
   }
+
   // insere as cores que vem do array limpo no storage.
   localStorage.setItem('colorPalette', JSON.stringify(paleta));
 }
+
 // recupera as cores do storage.
 function addItem() {
   if (localStorage.colorPalette) {
     paleta = JSON.parse(localStorage.getItem('colorPalette'));
   }
+
   // atribui as cores do storage nas divs respectivas
   document.getElementById('color-2').style.backgroundColor = paleta[0];
   document.getElementById('color-3').style.backgroundColor = paleta[1];
   document.getElementById('color-4').style.backgroundColor = paleta[2];
-} addItem();
+}
+
+addItem();
+
 // recupera a div container onde estará os pixels a serem pintados
 const block = document.getElementById('pixel-board');
-
-// recupera o elemento com a classe selected.
 
 // pinta as divs pixel
 function paint(event) {
@@ -85,19 +88,25 @@ function paint(event) {
 }
 
 // cria 25 divs que serao os pixels a serem pintados
-function createPixelBoard() {
-  for (let index = 0; index < 25; index += 1) {
+function createPixelBoard(param) {
+  for (let index = 0; index < param; index += 1) {
     const newDiv = document.createElement('div');
     newDiv.className = 'pixel';
     newDiv.style.backgroundColor = 'white';
     newDiv.addEventListener('click', paint);
     block.append(newDiv);
   }
-} createPixelBoard();
+}
 
+createPixelBoard(25);
+
+// adicionando evento no botao randon color
 document.getElementById('button-random-color').addEventListener('click', trocaColor);
+
+// recuperando botao clear do document
 const containerButton = document.getElementById('clear-board');
 
+// funçao para limpar o pixel-board
 function clear() {
   const matrix = document.querySelectorAll('.pixel');
   for (let index = 0; index < matrix.length; index += 1) {
@@ -105,13 +114,18 @@ function clear() {
   }
 }
 
+// adicionando evento no botao clear.
 containerButton.addEventListener('click', clear);
 
+// array para armazenar as cores pintadas.
 let pixArt = [];
 
+// função para salvar o desenho no storage.
 function saveArt() {
   const matrixX = document.querySelectorAll('.pixel');
+
   let pixArt = [];
+
   for (let index = 0; index < matrixX.length; index += 1) {
     if (matrixX[index].style.backgroundColor !== null) {
       pixArt.push(matrixX[index].style.backgroundColor);
@@ -121,6 +135,7 @@ function saveArt() {
   localStorage.setItem('pixelBoard', JSON.stringify(pixArt));
 }
 
+// função para carregar o desenho salvo e aplicar no board.
 function loadArt() {
   const matrixX = document.querySelectorAll('.pixel');
   if (localStorage.pixelBoard) {
@@ -130,4 +145,38 @@ function loadArt() {
       matrixX[index].style.backgroundColor = pixArt[index];
     }
   }
-} loadArt();
+}
+
+loadArt();
+
+function generateNewBoard() {
+  const matrixX = document.getElementById('pixel-board');
+  let btnInput = document.getElementById('board-size').valueAsNumber;
+  console.log(typeof btnInput);
+
+  if (btnInput <= 0) {
+    return window.alert('Board inválido!');
+  } if (document.getElementById('board-size').value === '') {
+    return window.alert('Board inválido!');
+  }
+  btnInput = checkBoard(btnInput);
+
+  while (matrixX.firstElementChild) {
+    matrixX.lastElementChild.remove();
+  }
+  block.style.gridTemplateColumns = `repeat(${btnInput}, 1fr)`;
+  block.style.gridTemplateRows = `repeat(${btnInput}, 1fr)`;
+
+  createPixelBoard(btnInput ** 2);
+}
+
+function checkBoard(input) {
+  if (input < 5) {
+    input = 5;
+  } if (input > 50) {
+    input = 50;
+  }
+ return input;
+}
+const buttonVqv = document.getElementById('generate-board');
+buttonVqv.addEventListener('click', generateNewBoard);
