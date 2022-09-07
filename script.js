@@ -21,11 +21,9 @@ function divSelect(eventP) {
   }
 
   blockGuard.classList.add('selected');
-  return blockGuard;
 }
 
 // cria uma paletta de divs com 4 divs
-
 function createPalette() {
   for (let index = 1; index <= 4; index += 1) {
     const divPalette = document.createElement('div');
@@ -83,7 +81,6 @@ const block = document.getElementById('pixel-board');
 function paint(event) {
   const divEvent = event.target;
   divEvent.style.backgroundColor = document.querySelector('.selected').style.backgroundColor;
-  console.log(document.querySelector('.selected'));
   saveArt();
 }
 
@@ -96,9 +93,9 @@ function createPixelBoard(param) {
     newDiv.addEventListener('click', paint);
     block.append(newDiv);
   }
+  /* block.style.gridTemplateColumns = `repeat(${param}, 1fr)`;
+  block.style.gridTemplateRows = `repeat(${param}, 1fr)`; */
 }
-
-createPixelBoard(25);
 
 // adicionando evento no botao randon color
 document.getElementById('button-random-color').addEventListener('click', trocaColor);
@@ -130,7 +127,6 @@ function saveArt() {
     if (matrixX[index].style.backgroundColor !== null) {
       pixArt.push(matrixX[index].style.backgroundColor);
     }
-    console.log(pixArt);
   }
   localStorage.setItem('pixelBoard', JSON.stringify(pixArt));
 }
@@ -150,24 +146,30 @@ function loadArt() {
 loadArt();
 
 function generateNewBoard() {
-  const matrixX = document.getElementById('pixel-board');
-  let btnInput = document.getElementById('board-size').valueAsNumber;
-  console.log(typeof btnInput);
+  let btnInput = document.getElementById('board-size').value;
 
   if (btnInput <= 0) {
     return window.alert('Board inválido!');
-  } if (document.getElementById('board-size').value === '') {
+  } if (btnInput === '') {
     return window.alert('Board inválido!');
   }
+  eraseData();
+
   btnInput = checkBoard(btnInput);
 
-  while (matrixX.firstElementChild) {
-    matrixX.lastElementChild.remove();
-  }
   block.style.gridTemplateColumns = `repeat(${btnInput}, 1fr)`;
   block.style.gridTemplateRows = `repeat(${btnInput}, 1fr)`;
 
   createPixelBoard(btnInput ** 2);
+  localStorage.setItem('boardSize', JSON.stringify(btnInput));
+}
+
+function eraseData() {
+  const matrixX = document.getElementById('pixel-board');
+
+  while (matrixX.firstElementChild) { // apaga o board antes de criar um novo.
+    matrixX.lastElementChild.remove();
+  }
 }
 
 function checkBoard(input) {
@@ -176,7 +178,22 @@ function checkBoard(input) {
   } if (input > 50) {
     input = 50;
   }
- return input;
+  return input;
 }
+
+function loadBoard() {
+  let btnInput = JSON.parse(localStorage.getItem('boardSize'));
+  if (localStorage.boardSize) {
+    createPixelBoard(btnInput ** 2);
+    loadArt();
+  } else {
+    createPixelBoard(25);
+  }
+
+  block.style.gridTemplateColumns = `repeat(${btnInput}, 1fr)`;
+  block.style.gridTemplateRows = `repeat(${btnInput}, 1fr)`;
+}
+window.onload = loadBoard;
+
 const buttonVqv = document.getElementById('generate-board');
 buttonVqv.addEventListener('click', generateNewBoard);
