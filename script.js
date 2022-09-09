@@ -143,8 +143,6 @@ function loadArt() {
   }
 }
 
-loadArt();
-
 function generateNewBoard() {
   let btnInput = document.getElementById('board-size').value;
 
@@ -188,6 +186,7 @@ function loadBoard() {
     loadArt();
   } else {
     createPixelBoard(25);
+    loadArt();
   }
 
   block.style.gridTemplateColumns = `repeat(${btnInput}, 1fr)`;
