@@ -180,7 +180,7 @@ function checkBoard(input) {
 }
 
 function loadBoard() {
-  let btnInput = JSON.parse(localStorage.getItem('boardSize'));
+  const btnInput = JSON.parse(localStorage.getItem('boardSize'));
   if (localStorage.boardSize) {
     createPixelBoard(btnInput ** 2);
     loadArt();
